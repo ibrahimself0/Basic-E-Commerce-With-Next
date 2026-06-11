@@ -6,6 +6,8 @@ import { Heart, Minus, Plus} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator} from "@base-ui/react";
 import {useCartStore} from "@/store/cart-store";
+import Link from "next/link";
+import {ShoppingCartIcon, Bars3Icon,XMarkIcon} from "@heroicons/react/24/outline";
 
 interface Props{
     product: Stripe.Product
@@ -15,6 +17,8 @@ function ProductDetail({product}: Props) {
     const price = product.default_price as Stripe.Price;
     const cartItem = items.find((item) => item.id === product.id);
     const quantity = cartItem ? cartItem.quantity : 0;
+
+    /*const cartCount */
 
     const onAddItem = () => {
 
@@ -118,9 +122,10 @@ function ProductDetail({product}: Props) {
                                     >
                                         <Plus className="size-4" />
                                     </Button>
-                                </div>
 
+                                </div>
                             </div>
+
 
                         </div>
 
