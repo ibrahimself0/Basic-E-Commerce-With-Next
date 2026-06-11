@@ -24,7 +24,7 @@ function Carousel({products}:Props) {
     const price = currentProduct.default_price as Stripe.Price;
 
     return  (
-        <Link href="/products" className="group grid rounded-md border md:grid-cols-2">
+        <Link href={`products/${currentProduct.id}`} className="group grid rounded-md border md:grid-cols-2">
             <figure className="relative aspect-square w-120 overflow-hidden rounded-tl-md rounded-bl-md object-cover">
                 <Image
                     fill

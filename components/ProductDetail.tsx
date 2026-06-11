@@ -5,12 +5,28 @@ import {Button} from "@/components/ui/button";
 import { Heart, Minus, Plus} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator} from "@base-ui/react";
+import {useCartStore} from "@/store/cart-store";
 
 interface Props{
     product: Stripe.Product
 }
 function ProductDetail({product}: Props) {
+    const { items, addItem,removeItem} = useCartStore();
     const price = product.default_price as Stripe.Price;
+    const cartItem = items.find((item) => item.id === product.id);
+    const quantity = cartItem ? cartItem.quantity : 0;
+
+    const onAddItem = () => {
+
+        addItem({
+            id: product.id,
+            name: product.name,
+            price: price.unit_amount as number,
+            imageUrl: product.images ? product.images[0] : null,
+            quantity: 1,
+        });
+    };
+    const onRemoveItem = () => removeItem(product.id);
     return (
         <section className="w-full ">
             <div className="mx-auto max-w-7xl px-4 py-16 lg:px-12 lg:py-24 xl:px-16">
@@ -87,38 +103,25 @@ function ProductDetail({product}: Props) {
                                         variant="ghost"
                                         size="icon"
                                         className="hover:bg-muted h-full shrink-0 rounded-none px-4 cursor-pointer"
-                                        onClick={() => {}}
+                                        onClick={onRemoveItem}
                                     >
                                         <Minus className="size-4" />
                                     </Button>
                                     <div className="border-border flex h-full min-w-14 items-center justify-center border-x text-sm font-medium">
-                                        0
+                                        {quantity}
                                     </div>
                                     <Button
                                         variant="ghost"
                                         size="icon"
                                         className="hover:bg-muted h-full shrink-0 rounded-none px-4 cursor-pointer"
-                                        onClick={() => {}}
+                                        onClick={onAddItem}
                                     >
                                         <Plus className="size-4" />
                                     </Button>
                                 </div>
-                                <Button
-                                    variant="outline"
-                                    className="border-border hover:bg-muted/50 flex-1 rounded-full h-12 font-medium cursor-pointer dark:bg-background shadow-xs"
-                                    size="lg"
-                                    onClick={()=>{}}
-                                >
-                                    Add to cart
-                                </Button>
+
                             </div>
-                            {price && price.unit_amount && (
-                                <Button
-                                className="w-full rounded-full h-12 font-medium cursor-pointer hover:bg-primary/80"
-                                size="lg"
-                                >
-                                Buy at ${(price.unit_amount /100).toFixed(2)}
-                            </Button>)}
+
                         </div>
 
                     </div>

@@ -8,7 +8,7 @@ export default async function Home() {
   const products =await stripe.products.list({
       expand: ["data.default_price"],
       limit: 5,
-    });
+  });
 
   const bannerImage =
       products?.data[3]?.images?.[0] || "/airpods.jpg";
